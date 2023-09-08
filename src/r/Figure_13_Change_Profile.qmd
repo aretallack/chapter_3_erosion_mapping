@@ -1,0 +1,69 @@
+---
+title: "Figure_16_Change_Profile"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+# Load packages
+pacman::p_load(terra, sf, tidyverse, ggpubr)
+
+# Load functions
+source("./src/r/functions.r")
+
+# Load transects for elevation profiles
+transects <- read_sf("./data/shp/Elevation_Profiles.shp")
+```
+
+You can add options to executable code like this 
+
+```{r}
+paths <- c("./data/dems/sfm/20210316_Deep_RGB_2cm_DEM_clipped.tif",
+    "./data/dems/sfm/20220301_Deep_RGB_2cm_DEM_clipped.tif")
+
+change_1 <- create_elevation_profile(paths, "erosion_6")
+
+change_1 <- change_1 +
+  labs(title = "Transect 3") +
+  theme(legend.direction = "vertical",
+        legend.position = c(0.74, 0.11),
+        legend.text = element_text(size = 20),
+        legend.key.width = unit(1.5, "cm"),
+        legend.spacing.y = unit(0.5, "cm"),
+        legend.background = element_rect(fill = "transparent"),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 16, face = "bold", hjust = -0.073)
+        ) +
+  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('March 2021', 'March 2022'))
+
+change_2 <- create_elevation_profile(paths, "erosion_7")
+
+change_2 <- change_2 +
+  labs(title = "Transect 4") +
+  theme(legend.direction = "vertical",
+        legend.position = c(0.74, 0.11),
+        legend.text = element_text(size = 20),
+        legend.key.width = unit(1.5, "cm"),
+        legend.spacing.y = unit(0.5, "cm"),
+        legend.background = element_rect(fill = "transparent"),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 16, face = "bold", hjust = -0.073)
+        ) +
+  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('March 2021', 'March 2022'))
+
+ggpubr::ggarrange(
+  change_1,
+  change_2 + 
+    rremove("y.title"),
+  nrow = 1
+  ) 
+
+ggsave("./figures/figure_13_change_profiles.png",
+     width = 10,
+     height = 5)
+```
+

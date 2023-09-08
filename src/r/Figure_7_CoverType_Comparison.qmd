@@ -1,0 +1,64 @@
+---
+title: "Figure_8_CoverType_Comparison"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: setup
+
+# Load packages
+pacman::p_load(tidyverse, terra)
+
+# Load functions
+source("./src/r/functions.r")
+
+# Load data
+dem_paths <- c("./data/differenced/sfm/20210506_20210505_Deep_RGB_35_diff.tif")
+dems <- lapply(dem_paths, rast)
+sample_zones <- vect("./outputs/shp/sample_zones.gpkg")
+```
+
+```{r}
+# Extract raster values by class
+px_vals <- extract_pixels(dems, sample_zones)
+
+px_vals %>% 
+  group_by(class) %>% 
+  summarise(sd = sd(value, na.rm = T),
+            mean = mean(value, na.rm = T),
+            min = min(value),
+            max = max(value),
+            n = n())
+
+# Create labels dataframe for plotting
+labels <- px_vals %>%
+  .[-which(duplicated(.$class)),]
+
+px_vals$class <- as.factor(px_vals$class)
+
+plot_stats(px_vals,
+           x = value,
+           y = class,
+           scale = 6,
+           colour_by = class,
+           xlim = c(-30, 30)) +
+  theme(
+    legend.key = element_rect(colour = "black", size = 1.2),
+    legend.position = c(0.85, 0.2),
+    legend.direction = "vertical",
+    legend.title = element_blank(),
+    legend.text = element_text(face = "bold")
+  ) +
+  scale_y_discrete(limits = rev(levels(px_vals$class))) +
+  scale_fill_manual(values = RColorBrewer::brewer.pal(11, "PiYG")[c(3, 7, 9)], breaks = c('Flat Surfaces', 'Gully Edges', 'Vegetation'))
+```
+
+# Save plot
+
+```{r}
+ggsave("./figures/figure_7_resolution_comparison.png",
+       width = 10,
+       height = 10*0.8)
+```

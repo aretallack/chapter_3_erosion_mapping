@@ -1,0 +1,67 @@
+---
+title: "Untitled"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+# Load packages
+pacman::p_load(terra, sf, tidyverse, ggpubr)
+
+# Load functions
+source("./src/r/functions.r")
+
+# Load transects for elevation profiles
+transects <- read_sf("./data/shp/Elevation_Profiles.shp")
+```
+
+```{r}
+paths <- c("./data/dems/sfm/20210505_Deep_RGB_2cm_DEM_clipped.tif",
+    "./data/dems/sfm/20210505_Deep_RGB_4cm_DEM_clipped.tif",
+    "./data/dems/sfm/20210505_Deep_RGB_6cm_DEM_clipped.tif")
+
+resolution_1 <- create_elevation_profile(paths, "noveg_1")
+
+resolution_1 <- resolution_1 +
+  labs(title = "Transect 1") +
+  theme(legend.direction = "vertical",
+        legend.position = c(0.18, 0.13),
+        legend.text = element_text(size = 20),
+        legend.key.width = unit(1.5, "cm"),
+        legend.spacing.y = unit(0.5, "cm"),
+        legend.background = element_rect(fill = "transparent"),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 16, face = "bold", hjust = -0.073)
+        ) +
+  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(2,3,5)], labels = c('2 cm', '4 cm', '6 cm'))
+
+resolution_2 <- create_elevation_profile(paths, "noveg_3")
+
+resolution_2 <- resolution_2 +
+  labs(title = "Transect 2") +
+  theme(legend.direction = "vertical",
+        legend.position = c(0.18, 0.13),
+        legend.text = element_text(size = 20),
+        legend.key.width = unit(1.5, "cm"),
+        legend.spacing.y = unit(0.5, "cm"),
+        legend.background = element_rect(fill = "transparent"),
+        axis.text = element_text(size = 20),
+        axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 16, face = "bold", hjust = -0.073)
+        ) +
+  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(2,3,5)], labels = c('2 cm', '4 cm', '6 cm'))
+
+ggpubr::ggarrange(
+  resolution_1,
+  resolution_2 + 
+    rremove("y.title"),
+  nrow = 1
+  )
+
+ggsave("./figures/figure_11_resolution_profiles.png",
+     width = 10,
+     height = 5)
+```
