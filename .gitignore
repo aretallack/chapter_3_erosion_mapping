@@ -7,7 +7,7 @@
 /outputs
 /figures
 /doc/pictures
-/old
+.idea
 *.pdf
 *.tif
 *.xml
