@@ -1,0 +1,6 @@
+project:
+  title: "chapter_2_ErosionMapping"
+  output-dir: output
+  execute-dir: project
+  
+editor: source
