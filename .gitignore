@@ -2,3 +2,16 @@
 .Rhistory
 .RData
 .Ruserdata
+/src/arcgis
+/src/qgis
+/outputs
+/figures
+/doc/pictures
+*.pdf
+*.tif
+*.xml
+*.shp
+*.dbf
+*.CPG
+*.shx
+*.prj
