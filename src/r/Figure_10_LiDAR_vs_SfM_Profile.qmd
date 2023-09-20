@@ -25,15 +25,18 @@ lidar_sfm_1 <- create_elevation_profile(paths, "noveg_1")
 lidar_sfm_1 <- lidar_sfm_1 +
   labs(title = "Transect 1") +
   theme(legend.direction = "vertical",
-        legend.position = c(0.18, 0.13),
-        legend.text = element_text(size = 20),
-        legend.key.width = unit(1.5, "cm"),
-        legend.spacing.y = unit(0.5, "cm"),
+        legend.position = c(0.15, 0.10),
+        legend.text = element_text(size = 8),
+        legend.key.width = unit(0.5, "cm"),
+        legend.key.height = unit(0.1, "cm"),
+        legend.spacing.y = unit(0.1, "cm"),
         legend.background = element_rect(fill = "transparent"),
-        axis.text = element_text(size = 20),
-        axis.title = element_text(size = 20, face = "bold"),
-        plot.title = element_text(size = 16, face = "bold", hjust = -0.073)
+        legend.margin = margin(0.1, 0.1, 0.1, 0.1, unit = "cm"),
+        axis.text = element_text(size = 8),
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 10, face = "bold", hjust = -0.073)
         ) +
+  scale_y_continuous(limits = c(0, 1.5), breaks = seq(0, 1.5, 0.5)) +
   scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('SfM', 'LiDAR'))
 
 
@@ -42,16 +45,21 @@ lidar_sfm_2 <- create_elevation_profile(paths, "noveg_3")
 lidar_sfm_2 <- lidar_sfm_2 +
   labs(title = "Transect 2") +
   theme(legend.direction = "vertical",
-        legend.position = c(0.18, 0.13),
-        legend.text = element_text(size = 20),
-        legend.key.width = unit(1.5, "cm"),
-        legend.spacing.y = unit(0.5, "cm"),
+        legend.position = c(0.15, 0.10),
+        legend.text = element_text(size = 8),
+        legend.key.width = unit(0.5, "cm"),
+        legend.key.height = unit(0.1, "cm"),
+        legend.spacing.y = unit(0.1, "cm"),
         legend.background = element_rect(fill = "transparent"),
-        axis.text = element_text(size = 20),
-        axis.title = element_text(size = 20, face = "bold"),
-        plot.title = element_text(size = 16, face = "bold", hjust = -0.073)
+        legend.margin = margin(0.1, 0.1, 0.1, 0.1, unit = "cm"),
+        axis.text = element_text(size = 8),
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 10, face = "bold", hjust = -0.073)
         ) +
+  scale_y_continuous(limits = c(0, 2.5), breaks = seq(0, 2.5, 0.5)) +
   scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('SfM', 'LiDAR'))
+
+# ragg::agg_png("16x8.png", width = 16, height = 8, units = "cm", res = 600)
 
 ggpubr::ggarrange(
   lidar_sfm_1,
@@ -64,7 +72,8 @@ ggpubr::ggarrange(
 
 ```{r}
 ggsave("./figures/figure_10_lidar_sfm.png",
-     width = 10,
-     height = 5)
+     width = 16,
+     height = 8,
+     units = "cm")
 
 ```

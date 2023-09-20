@@ -9,7 +9,7 @@ editor_options:
 #| label: setup
 
 # Load packages
-pacman::p_load(tidyverse, terra)
+pacman::p_load(tidyverse, terra, sf)
 # Load functions
 source("./src/r/Functions.r") 
 # Load data
@@ -80,15 +80,20 @@ px_vals_flat <- px_vals_flat %>%
 
 ##############################################################
 
-#############
-### Stats ###
-#############
+###############
+### TABLE 3 ###
+###############
+calc_rmse <- function(x) sqrt(mean(x^2))
+
 px_vals_flat %>%
   group_by(method, site_res) %>% 
   summarise(bias = mean(value),
-            sd = sd(value),
-            n = n())
+            rmse = calc_rmse(value),
+            mean_absdiff = mean(abs(value)))
 
+################
+### FIGURE 8 ###
+################
 
 labels <- px_vals_flat %>%
   arrange(dataset) %>% 
@@ -117,7 +122,7 @@ plot_stats(data = px_vals_flat,
             size = 22 / .pt,
             position = position_nudge(x = 9.5, y = 0.58))
 
-ggsave("./figures/figure_8_consistency.png",
+ggsave("./figures/figure_8.png",
        width = 10,
        height = 10*0.8)
 ```

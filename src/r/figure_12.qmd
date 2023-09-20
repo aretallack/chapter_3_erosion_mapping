@@ -1,0 +1,104 @@
+---
+title: "Figure_16_Change_Profile"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+# Load packages
+pacman::p_load(terra, sf, tidyverse, ggpubr)
+
+# Load functions
+source("./src/r/functions.r")
+
+# Load transects for elevation profiles
+transects <- read_sf("./data/shp/Elevation_Profiles.shp")
+```
+
+You can add options to executable code like this 
+
+```{r}
+paths <- c("./data/dems/sfm/20210316_Deep_RGB_2cm_DEM_clipped.tif",
+    "./data/dems/sfm/20220301_Deep_RGB_2cm_DEM_clipped.tif")
+
+change_1 <- create_elevation_profile(paths, "erosion_6", TRUE)
+
+ggplot(change_1) +
+# Plain black line plots behind coloured line (outline)
+# geom_line(aes(x = distance, y = elevation, group = dataset),
+#           lwd = 1.2) +
+# Lines coloured by dataset
+geom_line(aes(x = distance, y = elevation, linetype = dataset),
+          lwd = 0.3) +
+  scale_y_continuous(breaks = seq(0, 2.2, by = 0.5)) +
+  labs(x = "Distance (m)",
+     y = "Elevation (m)",
+     colour = "Dataset",
+     linetype = "Dataset") +
+  theme_classic() +
+  theme(
+  legend.box = "horizontal",
+  legend.title = element_blank(),
+  legend.position = c(0.74, 0.11),
+  legend.text = element_text(size = unit(6, "cm")),
+  legend.key.width = unit(0.5, "cm"),
+  legend.key.height = unit(0.1, "cm"),
+  legend.background = element_rect(fill = "transparent"),
+  axis.text = element_text(size = 8),
+  axis.title = element_text(size = 8, face = "bold"),
+  plot.title = element_text(size = 10, face = "bold", hjust = -0.095)
+  ) +
+  scale_linetype_manual(values = c("solid", "dashed"), labels = c('March 2021', 'March 2022'))
+
+
+change_1 <- change_1 +
+  labs(title = "Transect 3") +
+  theme(legend.direction = "vertical",
+        legend.position = c(0.74, 0.11),
+        legend.text = element_text(size = 8),
+        legend.key.width = unit(0.5, "cm"),
+        legend.key.height = unit(0.1, "cm"),
+        legend.spacing.y = unit(0.1, "cm"),
+        legend.background = element_rect(fill = "transparent"),
+        legend.margin = margin(0.1, 0.1, 0.1, 0.1, unit = "cm"),
+        axis.text = element_text(size = 8),
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 10, face = "bold", hjust = -0.073)
+        ) +
+  scale_y_continuous(limits = c(0, 2.2), breaks = seq(0, 2, 0.5)) +
+  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('March 2021', 'March 2022'))
+
+change_2 <- create_elevation_profile(paths, "erosion_7")
+
+change_2 <- change_2 +
+  labs(title = "Transect 4") +
+  theme(legend.direction = "vertical",
+        legend.position = c(0.74, 0.11),
+        legend.text = element_text(size = 8),
+        legend.key.width = unit(0.5, "cm"),
+        legend.key.height = unit(0.1, "cm"),
+        legend.spacing.y = unit(0.1, "cm"),
+        legend.background = element_rect(fill = "transparent"),
+        legend.margin = margin(0.1, 0.1, 0.1, 0.1, unit = "cm"),
+        axis.text = element_text(size = 8),
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 10, face = "bold", hjust = -0.073)
+        ) +
+  scale_y_continuous(limits = c(0, 2.5), breaks = seq(0, 2.5, 0.5)) +
+  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('March 2021', 'March 2022'))
+
+ggpubr::ggarrange(
+  change_1,
+  change_2 + 
+    rremove("y.title"),
+  nrow = 1
+  ) 
+
+ggsave("./figures/figure_13_change_profiles.png",
+     width = 16,
+     height = 8,
+     units = "cm")
+```
+
