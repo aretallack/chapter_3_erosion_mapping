@@ -4,6 +4,7 @@
 .Ruserdata
 /src/arcgis
 /src/qgis
+/src/old
 /outputs
 /figures
 /doc/pictures
