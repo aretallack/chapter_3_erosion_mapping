@@ -14,127 +14,105 @@ source("./src/r/functions.r")
 
 # Load transects for elevation profiles
 transects <- read_sf("./data/shp/Elevation_Profiles.shp")
-sfm_paths <- c("./data/dems/sfm/20210505_Deep_RGB_2cm_DEM_clipped.tif",
-               "./data/dems/sfm/20210506_Deep_RGB_2cm_DEM_clipped.tif")
-# sfm_paths <- c("./data/dems/sfm/20210505_Deep_RGB_4cm_DEM_clipped.tif")
-
-lidar_paths <- c("./data/dems/lidar/20210316_Deep_LiDAR_DEM_clipped.tif",
-                 "./data/dems/lidar/20210317_Deep_LiDAR_DEM_clipped.tif")
-
-# lidar_paths <- c("./data/dems/lidar/20210316_Deep_LiDAR_DEM_clipped.tif")
+paths <- c("./data/dems/sfm/20210505_Deep_RGB_2cm_DEM_clipped.tif",
+           "./data/dems/sfm/20210506_Deep_RGB_2cm_DEM_clipped.tif",
+           "./data/dems/lidar/20210316_Deep_LiDAR_DEM_clipped.tif",
+           "./data/dems/lidar/20210317_Deep_LiDAR_DEM_clipped.tif")
 ```
 
 ```{r}
-smf_1 <- create_elevation_profile(sfm_paths, "noveg_1")
-smf_1 <- smf_1 +
-  labs(title = "Transect 1",
-    subtitle = "SfM") +
-  theme(legend.direction = "vertical",
-        legend.position = c(0.19, 0.18),
-        legend.text = element_text(size = 8),
-        legend.key.width = unit(0.5, "cm"),
-        legend.key.height = unit(0.1, "cm"),
-        legend.spacing.y = unit(0.1, "cm"),
-        legend.background = element_rect(fill = "transparent"),
-        axis.text = element_text(size = 8),
-        axis.title = element_text(size = 8, face = "bold"),
-        plot.title = element_text(size = 10, face = "bold", hjust = -0.080),
-        plot.subtitle = element_text(size = 8, face = "bold", hjust = -0.073)
-        ) +
-  scale_y_continuous(limits = c(0, 1.5), breaks = seq(0, 1.5, 0.5)) +
-  coord_cartesian(ylim = c(-0.5, 1.5)) +
-  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('5th May 2021', '6th May 2021'))
+values <- create_elevation_profile(paths, "noveg_1", TRUE)
 
+values <- values %>% 
+  mutate(date = str_split(dataset, "_", simplify = T) %>% 
+           .[,1],
+         day = ifelse(str_detect(date, c("05$|16$")), "1", "2"),
+         method = ifelse(str_detect(dataset, "RGB"), "RGB", "LiDAR"))
 
-lidar_1 <- create_elevation_profile(lidar_paths, "noveg_1")
-lidar_1 <- lidar_1 +
-  labs(subtitle = "LiDAR") +
-  theme(legend.direction = "vertical",
-        legend.position = c(0.22, 0.18),
-        legend.text = element_text(size = 8),
-        legend.key.width = unit(0.5, "cm"),
-        legend.key.height = unit(0.1, "cm"),
-        legend.spacing.y = unit(0.1, "cm"),
-        legend.background = element_rect(fill = "transparent"),
-        axis.text = element_text(size = 8),
-        axis.title = element_text(size = 8, face = "bold"),
-        plot.subtitle = element_text(size = 8, face = "bold", hjust = -0.073)
-        ) +
-  scale_y_continuous(limits = c(0, 1.5), breaks = seq(0, 1.5, 0.5)) +
-  coord_cartesian(ylim = c(-0.5, 1.5)) +
-  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('16th March 2021', '17th March 2021'))
-
-ggpubr::ggarrange(
-  smf_1 +
-    rremove("x.title") +
-    rremove("x.text"),
-  lidar_1, 
-  nrow = 2
-  )
+plot <- ggplot(values) +
+  geom_line(aes(x = distance, y = elevation, colour = dataset, linetype = dataset),
+            lwd = 0.3) +
+  scale_y_continuous(breaks = seq(0, 1.5, by = 0.5)) +
+  labs(x = "Distance (m)",
+       y = "Elevation (m)",
+       colour = "Dataset",
+       linetype = "Dataset") +
+  theme_classic() +
+  theme(
+    legend.box = "horizontal",
+    legend.title = element_blank(),
+    legend.position = c(0.25, 0.11),
+    legend.text = element_text(size = unit(6, "cm")),
+    legend.key.width = unit(0.5, "cm"),
+    legend.key.height = unit(0.1, "cm"),
+    legend.spacing.x = unit(0.1, "cm"),
+    legend.background = element_rect(fill = "transparent"),
+    axis.text = element_text(size = 8),
+    axis.title = element_text(size = 8, face = "bold"),
+    plot.title = element_text(size = 10, face = "bold", hjust = -0.095)
+  ) +
+  labs(title = "Transect 1") +
+  coord_cartesian(ylim = c(0, 1.5)) +
+  scale_linetype_manual(values = c("solid", "dashed", "solid", "dashed"), labels = c("LiDAR (16th March 21)", "LiDAR (17th March 21)", "SfM (5th May 21)", "SfM (6th May 21)")) +
+  scale_colour_manual(values = rep(RColorBrewer::brewer.pal(11, "PiYG")[c(3,9)], each = 2), labels = c("LiDAR (16th March 21)", "LiDAR (17th March 21)", "SfM (5th May 21)", "SfM (6th May 21)"))
 ```
 
-
-```{r}
-ggsave("./figures/figure_9_transect1.png",
-       width = 8,
-       height = 8,
-       units = c("cm"))
-```
 
 # Transect 2
 
 ```{r}
-smf_2 <- create_elevation_profile(sfm_paths, "noveg_3")
-smf_2 <- smf_2 +
-  labs(title = "Transect 2",
-    subtitle = "SfM") +
-  theme(legend.direction = "vertical",
-        legend.position = c(0.19, 0.18),
-        legend.text = element_text(size = 8),
-        legend.key.width = unit(0.5, "cm"),
-        legend.key.height = unit(0.1, "cm"),
-        legend.spacing.y = unit(0.1, "cm"),
-        legend.background = element_rect(fill = "transparent"),
-        axis.text = element_text(size = 8),
-        axis.title = element_text(size = 8, face = "bold"),
-        plot.title = element_text(size = 10, face = "bold", hjust = -0.080),
-        plot.subtitle = element_text(size = 8, face = "bold", hjust = -0.073)
-        ) +
-  scale_y_continuous(limits = c(0, 2.5), breaks = seq(0, 2.5, 0.5)) +
-  coord_cartesian(ylim = c(-0.5, 2.5)) +
-  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('5th May 2021', '6th May 2021'))
+values_2 <- create_elevation_profile(paths, "noveg_3", TRUE)
 
-lidar_2 <- create_elevation_profile(lidar_paths, "noveg_3")
-lidar_2 <- lidar_2 +
-  labs(subtitle = "LiDAR") +
-  theme(legend.direction = "vertical",
-        legend.position = c(0.22, 0.18),
-        legend.text = element_text(size = 8),
-        legend.key.width = unit(0.5, "cm"),
-        legend.key.height = unit(0.1, "cm"),
-        legend.spacing.y = unit(0.1, "cm"),
-        legend.background = element_rect(fill = "transparent"),
-        legend.margin = margin(0.1, 0.1, 0.1, 0.1, unit = "cm"),
-        axis.text = element_text(size = 8),
-        axis.title = element_text(size = 8, face = "bold"),
-        plot.subtitle = element_text(size = 8, face = "bold", hjust = -0.073)
-        ) +
-  scale_y_continuous(limits = c(-0.2, 2.5), breaks = seq(0, 2.5, 0.5)) +
-  coord_cartesian(ylim = c(-0.5, 2.4)) +
-  scale_colour_manual(values = RColorBrewer::brewer.pal(8, "Set2")[c(3,5)], labels = c('16th March 2021', '17th March 2021'))
+values_2 <- values_2 %>% 
+  mutate(date = str_split(dataset, "_", simplify = T) %>% 
+           .[,1],
+         day = ifelse(str_detect(date, c("05$|16$")), "1", "2"),
+         method = ifelse(str_detect(dataset, "RGB"), "RGB", "LiDAR"))
 
-# line_names = c("LiDAR", "SfM")
+plot_2 <- ggplot(values_2) +
+  # Plain black line plots behind coloured line (outline)
+  # geom_line(aes(x = distance, y = elevation, group = dataset),
+  #           lwd = 1.2) +
+  # Lines coloured by dataset
+  geom_line(aes(x = distance, y = elevation, colour = dataset, linetype = dataset),
+            lwd = 0.3) +
+  scale_y_continuous(breaks = seq(0, 2.5, by = 0.5)) +
+  labs(x = "Distance (m)",
+       y = "Elevation (m)",
+       colour = "Dataset",
+       linetype = "Dataset") +
+  theme_classic() +
+  theme(
+    legend.box = "horizontal",
+    legend.title = element_blank(),
+    legend.position = c(0.25, 0.11),
+    legend.text = element_text(size = unit(6, "cm")),
+    legend.key.width = unit(0.5, "cm"),
+    legend.key.height = unit(0.1, "cm"),
+    legend.background = element_rect(fill = "transparent"),
+    axis.text = element_text(size = 8),
+    axis.title = element_text(size = 8, face = "bold"),
+    plot.title = element_text(size = 10, face = "bold", hjust = -0.095)
+  ) +
+  labs(title = "Transect 2") +
+  coord_cartesian(ylim = c(-0.3, 2.5)) +
+  scale_linetype_manual(values = c("solid", "dashed", "solid", "dashed"), labels = c("LiDAR (16th March 21)", "LiDAR (17th March 21)", "SfM (5th May 21)", "SfM (6th May 21)")) +
+  scale_colour_manual(values = rep(RColorBrewer::brewer.pal(11, "PiYG")[c(3,9)], each = 2), labels = c("LiDAR (16th March 21)", "LiDAR (17th March 21)", "SfM (5th May 21)", "SfM (6th May 21)"))
+
+```
+
+```{r}
 ggpubr::ggarrange(
-  smf_2 +
-    rremove("x.title") +
-    rremove("x.text"),
-  lidar_2, 
-  nrow = 2
-  )
+  plot,
+  plot_2 + 
+    rremove("y.title"),
+  nrow = 1
+  ) 
 
-ggsave("./figures/figure_9_transect2.png",
-       width = 8,
+ggsave("./figures/figure_9_2_transect2.png",
+       width = 16,
        height = 8,
        units = c("cm"))
 ```
+
 
