@@ -11,7 +11,7 @@ editor_options:
 # Load packages
 pacman::p_load(tidyverse, terra, sf)
 # Load functions
-source("./src/r/Functions.r") 
+source("./src/r/functions.r") 
 # Load data
 dem_paths <- c(
   "./data/differenced/sfm/20210506_20210505_Deep_RGB_35_diff.tif",
@@ -88,8 +88,8 @@ calc_rmse <- function(x) sqrt(mean(x^2))
 px_vals_flat %>%
   group_by(method, site_res) %>% 
   summarise(bias = mean(value),
-            rmse = calc_rmse(value),
-            mean_absdiff = mean(abs(value)))
+            mean_absdiff = mean(abs(value)),
+            rmse = calc_rmse(value))
 
 ################
 ### FIGURE 8 ###

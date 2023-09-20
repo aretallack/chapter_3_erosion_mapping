@@ -58,7 +58,7 @@ plot_stats(px_vals,
 # Save plot
 
 ```{r}
-ggsave("./figures/figure_7_resolution_comparison.png",
+ggsave("./figures/figure_7.png",
        width = 10,
        height = 10*0.8)
 ```

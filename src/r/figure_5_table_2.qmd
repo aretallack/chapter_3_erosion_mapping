@@ -11,7 +11,7 @@ editor_options:
 # Load packages
 pacman::p_load(tidyverse, terra, sf)
 # Load functions
-source("./src/r/Functions.r") 
+source("./src/r/functions.r") 
 # Load data
 dem_paths <- c(
   "./data/differenced/sfm/20210506_20210505_Deep_RGB_35_diff.tif",
@@ -77,37 +77,24 @@ labels <- px_vals %>%
 
 labels$site_res <- as.factor(labels$site_res)
 
-#############
-### Stats ###
-#############
+###############
+### Table 3 ###
+###############
+
+calc_rmse <- function(x) sqrt(mean(x^2))
 
 # Site 1
 px_vals %>%
   group_by(site_res) %>% 
   summarise(bias = mean(value),
-            sd = sd(value),
-            min = min(value),
-            max = max(value))
+            mean_absdiff = mean(abs(value)),
+            rmse =  calc_rmse(value))
 
-#############
+################
+### Figure 5 ###
+################
 
 px_vals$dataset <- factor(x = px_vals$dataset, levels = c("20210318_20210316_Shallow_LiDAR_diff", "20210317_20210316_Deep_LiDAR_diff",  "20210506_20210505_Deep_RGB_110_diff", "20210506_20210505_Deep_RGB_70_diff", "20210506_20210505_Deep_RGB_35_diff"))
-
-# # filter out extreme 10 % of values
-# px_vals <- lapply(group_split(px_vals, site_res), \(x) {
-#        quant <- x %>%
-#          select(value) %>% 
-#          unlist() %>% 
-#          quantile(probs = c(0.05, 0.95))
-#        
-#        out <- x %>%
-#          filter(value > quant[1]) %>%
-#          filter(value < quant[2])
-#        
-#        return(out)
-#        }
-#        ) %>% bind_rows()
-
 
 plot_stats(data = px_vals, 
            x = value, 
@@ -136,7 +123,7 @@ plot_stats(data = px_vals,
 
 
 ```{r}
-ggsave("./figures/figure_5_consistency.png",
+ggsave("./figures/figure_5.png",
        width = 10,
        height = 10*0.8)
 ```
