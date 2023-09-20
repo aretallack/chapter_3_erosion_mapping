@@ -186,7 +186,7 @@ plot_stats <- function(data, x, y, scale, colour_by, xlim){
 ### Elevation Profile Function ###
 ##################################
 
-create_elevation_profile <- function(raster_paths, transect_name) {
+create_elevation_profile <- function(raster_paths, transect_name, return_values) {
 
   transect <- which(as_tibble(transects)[,2] == transect_name) %>% 
     transects[., ]
@@ -259,6 +259,8 @@ create_elevation_profile <- function(raster_paths, transect_name) {
   # Normalise values to minium of all rasters
   values$elevation <- values$elevation - min(values$elevation)
   
+  if (!return_values) {
+  
   ###############################
   ### plot elevation profiles ###
   ###############################
@@ -281,5 +283,6 @@ create_elevation_profile <- function(raster_paths, transect_name) {
     scale_y_continuous(breaks = seq(0, max(values$elevation) + 0.1, by = 0.2))
   
   return(plot)
+  } else {return(values)}
 }
 
