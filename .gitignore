@@ -10,6 +10,7 @@
 /doc
 /data
 /old
+.spyproject
 .idea
 *.pdf
 *.tif
