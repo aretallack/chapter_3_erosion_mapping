@@ -10,7 +10,7 @@
 /doc
 /data
 /old
-/.spyproject/config/workspace.ini
+/spyproject/config/workspace.ini
 .idea
 *.pdf
 *.tif
