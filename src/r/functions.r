@@ -187,7 +187,11 @@ plot_stats <- function(data, x, y, scale, colour_by, xlim){
 ##################################
 
 create_elevation_profile <- function(raster_paths, transect_name, return_values) {
-
+  
+  if (missing(return_values)) {
+    return_values <- FALSE
+  }
+  
   transect <- which(as_tibble(transects)[,2] == transect_name) %>% 
     transects[., ]
   
@@ -271,7 +275,7 @@ create_elevation_profile <- function(raster_paths, transect_name, return_values)
     #           lwd = 1.2) +
     # Lines coloured by dataset
     geom_line(aes(x = distance, y = elevation, colour = dataset),
-              lwd = 1.2) +
+              lwd = 0.8) +
     scale_colour_brewer(palette = "PiYG") +
     labs(x = "Distance (m)",
          y = "Elevation (m)",
@@ -283,6 +287,8 @@ create_elevation_profile <- function(raster_paths, transect_name, return_values)
     scale_y_continuous(breaks = seq(0, max(values$elevation) + 0.1, by = 0.2))
   
   return(plot)
-  } else {return(values)}
+  } else {
+    return(values)
+    }
 }
 

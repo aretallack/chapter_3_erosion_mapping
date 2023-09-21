@@ -67,7 +67,7 @@ ggpubr::ggarrange(
   nrow = 1
   )
 
-ggsave("./figures/figure_11_resolution_profiles.png",
+ggsave("./figures/figure_10.png",
      width = 16,
      height = 8,
      unit = "cm")
