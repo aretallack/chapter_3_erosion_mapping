@@ -275,7 +275,7 @@ create_elevation_profile <- function(raster_paths, transect_name, return_values)
     #           lwd = 1.2) +
     # Lines coloured by dataset
     geom_line(aes(x = distance, y = elevation, colour = dataset),
-              lwd = 0.8) +
+              lwd = 0.3) +
     scale_colour_brewer(palette = "PiYG") +
     labs(x = "Distance (m)",
          y = "Elevation (m)",

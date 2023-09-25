@@ -109,7 +109,7 @@ ggpubr::ggarrange(
   nrow = 1
   ) 
 
-ggsave("./figures/figure_9_2_transect2.png",
+ggsave("./figures/figure_9.png",
        width = 16,
        height = 8,
        units = c("cm"))
