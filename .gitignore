@@ -9,7 +9,9 @@
 /outputs
 /figures
 /doc
-/data
+/data/dems
+/data/differenced
+/data/orthomosaics
 /src/r/old
 .spyproject*
 .idea
