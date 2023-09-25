@@ -1,48 +1,24 @@
 
-#########################################
-### Calculate stats for raster pixels ###
-#########################################
-
-calculate_stats <- function(paths) {
-  for (i in 1:length(paths)) {
-    values <- rast(paths[i]) %>% 
-      as.vector()
-    values <- values * 100 # Convert from m to cm
-    values <- values[-which(is.na(values))]
-    name <- paths[i] %>% 
-      basename %>% 
-      str_remove(".tif")
-    
-    mean <- mean(values)
-    median <- median(values)
-    quantile <- quantile(values, c(0.05, 0.95))
-    sd <- sd(values)
-    
-    # On the first iteration of the loop create the dataframe
-    if (i == 1) {
-      stats <- tibble(dataset = name,
-                      mean = mean,
-                      median = median,
-                      "0.05" = quantile[1],
-                      "0.95" = quantile[2],
-                      sd = sd)
-    } else { # On all successive iterations bind new values onto dataframe
-      stats <- rbind(stats, 
-                      tibble(dataset = name,
-                             mean = mean,
-                             median = median,
-                             "0.05" = quantile[1],
-                             "0.95" = quantile[2],
-                             sd = sd))
-    }
-    
-  }
-  return(stats)
-}
-
 #####################################
 ### Return vector of pixel values ###
 #####################################
+
+# This function extracts pixel values from a list of provided rasters
+# It is designed to take differenced DSMs as the input.
+
+# The function also has a "zones" argument, which expects an sf object of polygons
+# with a field named "class", with unique values "flat", "shrub" and "edge".
+
+# If "zones" is not specified, only the first section of the function is run.
+# giving a dataframe of pixel values, and a column of the input dataset name for
+# each pixel
+
+# If "zones" is specified, the input polygons are use to extract pixels from the 
+# input rasters. These extracted pixel values are then output in a dataframe with the 
+# dataset name of the input rasters, and the class of the zone polygons. 
+
+# The number of sampled pixels in each class are always equalised to the class
+# with the smallest number of pixels to keep sampling balanced.
 
 extract_pixels <- function(rasters, zones) {
   
@@ -125,10 +101,22 @@ extract_pixels <- function(rasters, zones) {
 }
 
 
-
 #############################
 ### Density Plot Function ###
 #############################
+
+# Function takes a dataframe of pixel values, Usually from extract_pixels, above
+# and creates overlapping density plots of input values using ggridges::
+
+# Arguments include the fields in the input dataframe to use as the x and y axes.
+
+# Scale is an inbuilt argument of geom_density_ridges and controls the overlap of 
+# density plots.
+
+# colour_by specifies the field in data that should be used to colour 
+# density plots. i.e. grouping variable that should be used for colouring.
+
+# xlim controls the x limits of the plot in the format of c(xmin, xmax)
 
 plot_stats <- function(data, x, y, scale, colour_by, xlim){
   line_width <- 1.25 # Density plot line width
@@ -185,6 +173,17 @@ plot_stats <- function(data, x, y, scale, colour_by, xlim){
 ##################################
 ### Elevation Profile Function ###
 ##################################
+
+# requires that an sf object of transects - named "transects" - is present 
+# in the environment, with transect names in the second column. 
+
+# Takes a vector of raster DSM paths and the name of the transect to be used in the
+# "transects" sf dataframe.
+
+# option: return_values. if TRUE, function returns a dataframe of distances and 
+# elevation values to allow independant creation of an elevation profile.
+# otherwise, function returns a ggplot of the elevation profile along the 
+# provided transect - profiles for each input raster are plotted together.
 
 create_elevation_profile <- function(raster_paths, transect_name, return_values) {
   
