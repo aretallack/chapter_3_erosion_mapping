@@ -10,7 +10,7 @@
 /figures
 /doc
 /data
-/old
+/src/r/old
 .spyproject*
 .idea
 *.pdf
