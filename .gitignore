@@ -4,7 +4,6 @@
 .Ruserdata
 /src/arcgis
 /src/qgis
-/src/python
 /src/old
 /outputs
 /figures
@@ -13,7 +12,6 @@
 /data/differenced
 /data/orthomosaics
 /src/r/old
-.spyproject*
 .idea
 *.pdf
 *.tif
