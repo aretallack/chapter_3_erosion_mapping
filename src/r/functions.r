@@ -80,7 +80,7 @@ extract_pixels <- function(rasters, zones) {
         unlist() %>%
         min()
 
-      if (least > 0){
+      if (least > 0) {
         flat_values <- flat_values[sample(1:nrow(flat_values), least),]
         shrub_values <- shrub_values[sample(1:nrow(shrub_values), least),]
         edge_values <- edge_values[sample(1:nrow(edge_values), least),]
