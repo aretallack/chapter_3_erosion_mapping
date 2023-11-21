@@ -5,8 +5,9 @@
 /src/arcgis
 /src/qgis
 /src/old
-/outputs
-/figures
+!*.gitkeep
+/figures/*.jpg
+/figures/*.png
 /doc
 /data/dems
 /data/differenced
