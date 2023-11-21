@@ -14,11 +14,11 @@ pacman::p_load(tidyverse, terra, sf)
 source("./src/r/functions.r") 
 # Load data
 dem_paths <- c(
-  "./data/differenced/sfm/20210506_20210505_Deep_RGB_35_diff.tif",
-  "./data/differenced/sfm/20210506_20210505_Deep_RGB_70_diff.tif",
-  "./data/differenced/sfm/20210506_20210505_Deep_RGB_110_diff.tif",
-  "./data/differenced/lidar/20210317_20210316_Deep_LiDAR_diff.tif",
-  "./data/differenced/lidar/20210318_20210316_Shallow_LiDAR_diff.tif"
+  "./outputs/processed_dems/rgb/differenced/20210506_20210505_Deep_RGB_35_diff.tif",
+  "./outputs/processed_dems/rgb/differenced/20210506_20210505_Deep_RGB_70_diff.tif",
+  "./outputs/processed_dems/rgb/differenced/20210506_20210505_Deep_RGB_110_diff.tif",
+  "./outputs/processed_dems/lidar/differenced/20210317_20210316_Deep_LiDAR_diff.tif",
+  "./outputs/processed_dems/lidar/differenced/20210318_20210316_Shallow_LiDAR_diff.tif"
 )
 
 rasters <- lapply(dem_paths, rast)

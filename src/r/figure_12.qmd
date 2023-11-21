@@ -20,8 +20,8 @@ transects <- read_sf("./data/shp/Elevation_Profiles.shp")
 You can add options to executable code like this 
 
 ```{r}
-paths <- c("./data/dems/sfm/20210316_Deep_RGB_2cm_DEM_clipped.tif",
-    "./data/dems/sfm/20220301_Deep_RGB_2cm_DEM_clipped.tif")
+paths <- c("./outputs/processed_dems/rgb/20210316_Deep_RGB_2cm_DEM_clipped.tif",
+    "./outputs/processed_dems/rgb/20220301_Deep_RGB_2cm_DEM_clipped.tif")
 
 values_1 <- create_elevation_profile(paths, "erosion_6", TRUE)
 

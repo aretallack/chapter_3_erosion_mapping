@@ -14,10 +14,10 @@ source("./src/r/functions.r")
 
 # Load transects for elevation profiles
 transects <- read_sf("./data/shp/Elevation_Profiles.shp")
-paths <- c("./data/dems/sfm/20210505_Deep_RGB_2cm_DEM_clipped.tif",
-           "./data/dems/sfm/20210506_Deep_RGB_2cm_DEM_clipped.tif",
-           "./data/dems/lidar/20210316_Deep_LiDAR_DEM_clipped.tif",
-           "./data/dems/lidar/20210317_Deep_LiDAR_DEM_clipped.tif")
+paths <- c("./outputs/processed_dems/rgb/20210505_Deep_RGB_2cm_DEM_clipped.tif",
+           "./outputs/processed_dems/rgb/20210506_Deep_RGB_2cm_DEM_clipped.tif",
+           "./outputs/processed_dems/lidar/20210316_Deep_LiDAR_DEM_clipped.tif",
+           "./outputs/processed_dems/lidar/20210317_Deep_LiDAR_DEM_clipped.tif")
 ```
 
 ```{r}

@@ -18,9 +18,9 @@ transects <- read_sf("./data/shp/Elevation_Profiles.shp")
 ```
 
 ```{r}
-paths <- c("./data/dems/sfm/20210505_Deep_RGB_2cm_DEM_clipped.tif",
-    "./data/dems/sfm/20210505_Deep_RGB_4cm_DEM_clipped.tif",
-    "./data/dems/sfm/20210505_Deep_RGB_6cm_DEM_clipped.tif")
+paths <- c("./outputs/processed_dems/rgb/20210505_Deep_RGB_2cm_DEM_clipped.tif",
+    "./outputs/processed_dems/rgb/20210505_Deep_RGB_4cm_DEM_clipped.tif",
+    "./outputs/processed_dems/rgb/20210505_Deep_RGB_6cm_DEM_clipped.tif")
 
 resolution_1 <- create_elevation_profile(paths, "noveg_1")
 
