@@ -6,10 +6,10 @@
 /src/arcgis
 /src/qgis
 /src/old
-!*.gitkeep
 /doc
 /data
 /outputs
-/figures
+/figures/*
+!/figures/.gitkeep
 /src/r/old
 
