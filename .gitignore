@@ -7,16 +7,12 @@
 /src/qgis
 /src/old
 /doc/*
-/data/old/*
 
-/data/unprocessed_dems/lidar/*
-!/data/unprocessed_dems/lidar/.gitkeep
 
-/data/unprocessed_dems/rgb/*
-!/data/unprocessed_dems/rgb/.gitkeep
-/data/shp/*
-
-!/data/shp/.gitkeep
+data/**
+!data/unprocessed_dems
+!data/unprocessed_dems/lidar
+!data/unprocessed_dems/rgb
 
 outputs/**
 !outputs/processed_dems
