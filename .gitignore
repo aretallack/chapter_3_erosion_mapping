@@ -19,6 +19,7 @@
 /outputs/processed_dems/lidar/differenced/*
 !/outputs/processed_dems/lidar/differenced/.gitkeep
 /outputs/processed_dems/rgb/*
+!/outputs/processed_dems/rgb/.gitkeep
 /outputs/processed_dems/rgb/differenced/*
 !/outputs/processed_dems/rgb/differenced/.gitkeep
 /outputs/shp/*
