@@ -22,3 +22,32 @@ Original data is contained in the data folder
 Processed data from the python script, and balance_sampleZones.R are saved to the outputs folder
 figures from the R code are saved in the figures folder. 
 
+2.1 data folder
+For code to run, data should be placed within the data folder as below:
+
+E:/phd_chapters/chapter_4_erosion_mapping/data/
+
+data
+├── shp
+│   ├── Boolcoomatta_DeepGully_Boundary.gpkg
+│   ├── Boolcoomatta_ShallowGully_Boundary.gpkg
+│   └── sample_zones.gpkg
+└── unprocessed_dems
+    ├── lidar
+    │   ├── 20210316_Deep_LiDAR_DEM.tif
+    │   ├── 20210316_Shallow_LiDAR_DEM.tif
+    │   ├── 20210317_Deep_LiDAR_DEM.tif
+    │   ├── 20210318_Shallow_LiDAR_DEM.tif
+    └── rgb
+        ├── 20210316_Deep_RGB_2cm_DEM.tif
+        ├── 20210317_Deep_RGB_4cm_DEM.tif
+        ├── 20210317_Deep_RGB_6cm_DEM.tif
+        ├── 20210505_Deep_RGB_2cm_DEM.tif
+        ├── 20210505_Deep_RGB_4cm_DEM.tif
+        ├── 20210505_Deep_RGB_6cm_DEM.tif
+        ├── 20210506_Deep_RGB_2cm_DEM.tif
+        ├── 20210506_Deep_RGB_4cm_DEM.tif
+        ├── 20210506_Deep_RGB_6cm_DEM.tif
+        ├── 20220301_Deep_RGB_2cm_DEM.tif
+        ├── 20220301_Deep_RGB_4cm_DEM.tif
+        └── 20220301_Deep_RGB_6cm_DEM.tif
