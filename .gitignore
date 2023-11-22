@@ -13,6 +13,7 @@ data/**
 !data/unprocessed_dems
 !data/unprocessed_dems/lidar
 !data/unprocessed_dems/rgb
+!data/shp
 
 outputs/**
 !outputs/processed_dems
