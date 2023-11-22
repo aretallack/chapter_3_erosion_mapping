@@ -112,8 +112,8 @@ out_lidar = r'.\outputs\processed_dems\lidar'
 rgb_diff_dir = os.path.join(os.getcwd(), 'outputs\\processed_dems\\rgb\\differenced')
 lidar_diff_dir = os.path.join(os.getcwd(), 'outputs\\processed_dems\\lidar\\differenced')
 ### masks ###
-shp = r'.\data\shp\Boolcoomatta_DeepGully_Boundary.shp'
-shp_shallow = r'.\data\shp\Boolcoomatta_ShallowGully_Boundary.shp'
+shp = r'.\data\shp\Boolcoomatta_DeepGully_Boundary.gpkg'
+shp_shallow = r'.\data\shp\Boolcoomatta_ShallowGully_Boundary.gpkg'
 
 # %% ##############################################################################################
 ### Crop Files ####################################################################################
