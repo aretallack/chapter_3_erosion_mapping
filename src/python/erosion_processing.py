@@ -228,7 +228,7 @@ rgb_0506_0505_deep_35_diff = difference_dems(rgb_0506_deep_35m, rgb_0505_deep_35
 rgb_0506_0505_deep_70_diff = difference_dems(rgb_0506_deep_70m, rgb_0505_deep_70m, write_out=True, outpath = rgb_0506_0505_deep_70_out)
 rgb_0506_0505_deep_110_diff = difference_dems(rgb_0506_deep_110m, rgb_0505_deep_110m, write_out=True, outpath = rgb_0506_0505_deep_110_out)
 
-rgb_0301_0505_deep_35_diff = difference_dems(rgb_0505_deep_35m, rgb_0301_deep_35m, write_out=True, outpath = rgb_0301_0505_deep_35_out)
+rgb_0301_0505_deep_35_diff = difference_dems(rgb_0301_deep_35m, rgb_0505_deep_35m, write_out=True, outpath = rgb_0301_0505_deep_35_out)
 
 rgb_URAF_deep_35_70_diff = difference_dems(rgb_0317_deep_70m, rgb_0316_deep_35m, write_out=True, outpath = rgb_URAF_deep_35_70_out)
 rgb_URAF_deep_35_110_diff = difference_dems(rgb_0317_deep_110m, rgb_0316_deep_35m, write_out=True, outpath = rgb_URAF_deep_35_110_out)

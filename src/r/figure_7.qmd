@@ -38,6 +38,10 @@ labels <- px_vals %>%
 
 px_vals$class <- as.factor(px_vals$class)
 
+px_vals$class <- factor(px_vals$class, levels = c('Unvegetated Surfaces','Gully Edges', 'Vegetation'))
+levels(px_vals$class)
+
+
 plot_stats(px_vals,
            x = value,
            y = class,
@@ -52,7 +56,7 @@ plot_stats(px_vals,
     legend.text = element_text(face = "bold")
   ) +
   scale_y_discrete(limits = rev(levels(px_vals$class))) +
-  scale_fill_manual(values = RColorBrewer::brewer.pal(11, "PiYG")[c(3, 7, 9)], breaks = c('Flat Surfaces', 'Gully Edges', 'Vegetation'))
+  scale_fill_manual(values = RColorBrewer::brewer.pal(11, "PiYG")[c(3, 7, 9)], breaks = c('Unvegetated Surfaces','Gully Edges', 'Vegetation'), labels = c('Unvegetated','Gully Edges', 'Vegetation'))
 ```
 
 # Save plot
@@ -60,5 +64,6 @@ plot_stats(px_vals,
 ```{r}
 ggsave("./figures/figure_7.png",
        width = 10,
-       height = 10*0.8)
+       height = 10*0.8,
+       dpi = 600)
 ```

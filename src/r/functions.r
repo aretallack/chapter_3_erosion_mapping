@@ -56,7 +56,7 @@ extract_pixels <- function(rasters, zones) {
         terra::extract(flat_zones, ID = F) %>% 
         unlist() %>%  
         as_tibble() %>% 
-        add_column(class = "Flat Surfaces",
+        add_column(class = "Unvegetated Surfaces",
                    dataset = names(rasters)) %>% 
       filter(!is.na(value))
         

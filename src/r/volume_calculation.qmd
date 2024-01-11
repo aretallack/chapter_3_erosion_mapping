@@ -1,0 +1,39 @@
+---
+title: "Volume Calculation"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+#| label: setup
+
+# Load packages
+pacman::p_load(tidyverse, terra, sf)
+
+change_raster <- rast("./outputs/processed_dems/rgb/differenced/20220301_20210505_Deep_RGB_35_diff.tif")
+volume_area <- read_sf("./data/shp/volume_change.gpkg") %>% st_geometry()
+```
+
+Extract pixels
+```{r}
+pixel_area <- change_raster %>% terra::res() %>% prod()
+
+eroded_area <- crop(change_raster, volume_area) %>% 
+  mask(vect(volume_area))
+
+loss_values <- eroded_area %>% 
+  as.vector() %>% 
+  .[which(. < 0)] %>% 
+  abs()
+
+total_loss <- loss_values %>% 
+  {. * pixel_area} %>% 
+  sum()
+
+# # Same outcome as above
+# total_loss_2 <- loss_values %>% 
+#   mean() %>%
+#   {. * (pixel_area * length(loss_values))}
+
+```
+
